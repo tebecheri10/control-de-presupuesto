@@ -8,24 +8,30 @@ const Modal = ({
   animateModal,
   setAnimateModal,
   guardarGasto, 
-  gastoEditar 
+  gastoEditar,
+  setGastoEditar
   }) => {
 
   const [nombreGasto, setNombreGasto ] = useState("")
   const [cantidad, setCantidad ] = useState("")
   const [categoria, setCategoria ] = useState("")
   const [mensaje , setMensaje ] = useState("")
+  const [fecha , setFecha ] = useState("")
+  const [id , setId ] = useState("")
 
   useEffect(()=>{
     if(Object.keys(gastoEditar).length > 0){
        setNombreGasto(gastoEditar.nombreGasto);
        setCantidad(gastoEditar.cantidad)
        setCategoria(gastoEditar.categoria)
+       setId(gastoEditar.id)
+       setFecha(gastoEditar.fecha)
     }
   }, [])
 
    const  handleCloseModal = ()=>{
         setModal(!modal)
+        setGastoEditar({})
         setAnimateModal(!animateModal)
     }
 
@@ -35,7 +41,7 @@ const Modal = ({
          setMensaje("Todos los mensajes son obligatorios");
           return
       }
-      guardarGasto({nombreGasto, cantidad, categoria})
+      guardarGasto({nombreGasto, cantidad, categoria, id , fecha})
   }
 
 

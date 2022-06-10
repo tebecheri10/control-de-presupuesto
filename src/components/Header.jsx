@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import NuevoPresupuesto from './NuevoPresupuesto'
 import Modal from './Modal'
+import Filtros from './Filtros'
 import ControlPresupuesto from './ControlPresupuesto'
 import IconoNuevoGasto from '../img/nuevo-gasto.svg'
 import ListadoGastos from './ListadoGastos'
@@ -18,7 +19,12 @@ const Header = ({
     animateModal,
     setAnimateModal,
     handleNuevoGasto,
-    gastoEditar
+    gastoEditar,
+    handleRemoveItem,
+    filtro,
+    setFiltro,
+    gastosFiltrados,
+    setGastos
  }) => {
     
 
@@ -30,7 +36,10 @@ const Header = ({
             {isValid? (
                 <ControlPresupuesto
                 presupuesto={presupuesto}
+                setPresupuesto={ setPresupuesto}
                 gastos={ gastos }
+                setGastos={ setGastos }
+                setIsValid = { setIsValid }
                 />
             ):
             (
@@ -48,9 +57,16 @@ const Header = ({
         {isValid && (
         <>
         <main>
+            <Filtros
+            filtro= { filtro }
+            setFiltro = { setFiltro}
+            />
             <ListadoGastos
             gastos={ gastos }
             setGastoEditar = {setGastoEditar}
+            handleRemoveItem = { handleRemoveItem }
+            gastosFiltrados = { gastosFiltrados }
+            filtro={ filtro } 
             />
         </main>
         <div className='nuevo-gasto'>
@@ -72,6 +88,7 @@ const Header = ({
         setAnimateModal={setAnimateModal}
         guardarGasto={ guardarGasto }
         gastoEditar={ gastoEditar }
+        setGastoEditar = { setGastoEditar }
         />
 
         }

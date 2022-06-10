@@ -5,15 +5,20 @@ import Header from './components/Header'
 
 function App() {
 
-  const[ presupuesto, setPresupuesto ] = useState(0)
+  const[ presupuesto, setPresupuesto ] = useState(
+    Number(localStorage.getItem("presupuesto"))??0
+  )
   const[ isValid, setIsValid ] = useState(false)
-
-  const[ gastos, setGastos ] = useState([])
+  const[ gastos, setGastos ] = useState(
+    localStorage.getItem("gastos") ? JSON.parse(localStorage.getItem("gastos")): []
+  )
   const[ gastoEditar, setGastoEditar ] = useState([])
 
   const [modal , setModal ] = useState(false)
   const [animateModal , setAnimateModal ] = useState(false)
-
+  const [filtro , setFiltro ] = useState("")
+  const [gastosFiltrados, setGastosFiltrados ] = useState([])
+  
 
     const handleNuevoGasto = ()=>{
       setModal(!modal)
@@ -22,7 +27,11 @@ function App() {
         setAnimateModal(true)
     },1500)
     }
-  
+
+    const handleRemoveItem = (id)=>{
+          setGastos(gastos.filter(item=>item.id !== id))
+    }
+
   useEffect(()=>{
     if(Object.keys(gastoEditar).length > 0){
       setModal(!modal)
@@ -33,10 +42,43 @@ function App() {
   
   }, [gastoEditar])
 
+  useEffect(()=>{
+      localStorage.setItem("presupuesto", presupuesto ?? 0)
+  }, [presupuesto])
+
+  useEffect(()=>{
+   localStorage.setItem("gastos", JSON.stringify(gastos)?? [])
+}, [gastos])
+  
+  useEffect(()=>{
+    const presupuestoLS = Number(localStorage.getItem("presupuesto"))
+    if(presupuestoLS > 0){
+      setIsValid(true)
+    }
+}, [])
+
+useEffect(()=>{
+  if(filtro){
+    const gastosFiltrados = gastos.filter(gasto=> gasto.categoria === filtro)
+    setGastosFiltrados(gastosFiltrados)
+  }
+}, [filtro])
+
   const guardarGasto = (gasto)=>{
-    gasto.id = GenerateId()
-    gasto.fecha = Date.now();
-     setGastos([...gastos, gasto])
+    if(gasto.id){
+        const gastosActualizados = gastos.map(gastoState=> gastoState.id === gasto.id? gasto : gastoState)
+    setGastos(gastosActualizados)
+    setGastoEditar({})
+      }else{
+      gasto.id = GenerateId()
+      gasto.fecha = Date.now();
+       setGastos([...gastos, gasto])
+    }
+    setAnimateModal(false)
+    
+      setTimeout(()=>{
+        setModal(!modal)
+      },500)
    
   }
   console.log(gastos)
@@ -56,6 +98,11 @@ function App() {
       setAnimateModal={setAnimateModal}
       handleNuevoGasto={ handleNuevoGasto }
       gastoEditar = { gastoEditar}
+      handleRemoveItem = { handleRemoveItem}
+      filtro = { filtro }
+      setFiltro = { setFiltro }
+      gastosFiltrados={ gastosFiltrados }
+      setGastos={ setGastos }
       />
     </div>
   );
