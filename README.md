@@ -5,7 +5,7 @@ App para control de gastos , basada en el curso de Juan Pablo De la torre Valdez
 -Responsive.
 -Persistencia de datos en  localStorage.
 -Crear, editar y borrar gastos.
--Editar y borrar con haciendo swipe en los items
+-Editar y borrar haciendo swipe en los items
 
 web: https://controldegastosapp.netlify.app/
 
