@@ -19,6 +19,6 @@ web: https://controldegastosapp.netlify.app/
 ## Para iniciar el repositorio
 
 - En la raiz del proyecto correr "npm install " 
-- Luego ingresra el comando  "npm start"
+- Luego ingresar el comando  "npm start"
 
 ![image](https://user-images.githubusercontent.com/75167956/173168138-fb70a591-7e31-4e72-8f84-e6f1a6509f8e.png)
